@@ -3,10 +3,10 @@
 #include "Record.h"
 #include <QString>
 
+#define MAX_RECORDS 256;
+
 class Device
 {
-//MAX_RECORDS 256;
-
 private:
     bool on;
     bool isTouchingSkin;
