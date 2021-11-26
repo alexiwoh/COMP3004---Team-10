@@ -19,18 +19,18 @@ QString Record::getWaveform(){
   return waveform;
 }
 
-void Record:setPower(int p){
+void Record::setPower(int p){
   powerLevel = p;
 }
 
-void Record:setDuration(int d){
+void Record::setDuration(int d){
   duration = d;
 }
 
-void Record:setFrequency(double f){
+void Record::setFrequency(double f){
   frequency = f;
 }
 
-void Record:setWaveform(QString w){
+void Record::setWaveform(QString w){
   waveform = w;
 }
