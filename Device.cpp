@@ -1,25 +1,25 @@
 #include "Device.h"
 //testing if my uploading works  --sadiq
+
 Device::Device()
 {
 
 }
 
-
 //Setters
-void Device::setBatteryPercentage(){
+void Device::setBatteryPercentage(double per){
 
 }
 
-void Device::setFrequency(){
+void Device::setFrequency(double freq){
 
 }
 
-void Device::setCurrent(){
+void Device::setCurrent(double cur){
 
 }
 
-void Device::setWaveform(){
+void Device::setWaveform(QString const wave){
 
 }
 
@@ -51,10 +51,16 @@ void Device::toggleTouchingSkin(){
 
 }
 
-bool Device::checkBattery(){
+bool Device::checkBattery(double per){
 
 }
 
 void Device::shutDown(){
+
+}
+
+
+//slots
+void Device::resetTimeIdle(){
 
 }

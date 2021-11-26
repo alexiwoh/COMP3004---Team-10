@@ -1,12 +1,15 @@
 #ifndef DEVICE_H
 #define DEVICE_H
 #include "Record.h"
+#include <QObject>
 #include <QString>
 
 const int MAX_RECORDS = 256;
 
-class Device
+class Device : public QObject
 {
+Q_OBJECT
+
 private:
     bool on;
     bool isTouchingSkin;
@@ -19,12 +22,7 @@ private:
     Record records[MAX_RECORDS];
 
 public:
-    Device() {}
-
-    void toggle(); //on off toggle
-    void toggleTouchingSkin();
-    bool checkBattery(double);
-    void shutDown();
+    Device();
 
     //Setters
     void setBatteryPercentage(double);
@@ -37,6 +35,13 @@ public:
     double getFrequency();
     double getCurrent();
     QString getWaveform();
+
+    //Functions
+    void toggle(); //on off toggle
+    void toggleTouchingSkin();
+    bool checkBattery(double);
+    void shutDown();
+
 
 public slots:
     void resetTimeIdle(); //slot of the buttons

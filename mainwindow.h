@@ -16,6 +16,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    //connecting buttons
+    //connect(ui->powerPushButton, &QPushButton::released, this, &Device::toggle);
+
 private:
     Ui::MainWindow *ui;
     View *view;
