@@ -20,6 +20,7 @@ public:
     ~MainWindow();
 
     void updateFrequency();
+    void updateScreen(bool);
 
 private:
     Ui::MainWindow *ui;

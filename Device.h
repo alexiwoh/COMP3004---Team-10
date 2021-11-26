@@ -50,11 +50,15 @@ public:
     void shutDown();
     void addRecord(Record* r);
 
+
 public slots:
     void toggle(); //on off toggle
     void changeFrequency();
     void resetTimeIdle(); //slot of the buttons
 
 };
+
+
+
 
 #endif // DEVICE_H
