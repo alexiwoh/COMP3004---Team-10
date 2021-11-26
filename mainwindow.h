@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include "View.h"
 
+class Device;
+class View;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -16,8 +19,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    //connecting buttons
-    //connect(ui->powerPushButton, &QPushButton::released, this, &Device::toggle);
+    void updateFrequency();
 
 private:
     Ui::MainWindow *ui;

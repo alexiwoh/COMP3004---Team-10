@@ -1425,9 +1425,9 @@
    <widget class="QLabel" name="frequencyLabel">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>160</x>
       <y>60</y>
-      <width>41</width>
+      <width>31</width>
       <height>20</height>
      </rect>
     </property>
@@ -1439,7 +1439,10 @@
      </font>
     </property>
     <property name="text">
-     <string>0.5 hz</string>
+     <string>0.5</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="waveformLabel">
@@ -1562,6 +1565,26 @@
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="frequencyLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>60</y>
+      <width>31</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Noto Sans Adlam</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>hz</string>
+    </property>
+   </widget>
    <zorder>greyBackground</zorder>
    <zorder>greenBackground</zorder>
    <zorder>groupBox</zorder>
@@ -1593,6 +1616,7 @@
    <zorder>batteryLED</zorder>
    <zorder>recordPushButton</zorder>
    <zorder>recordingLED</zorder>
+   <zorder>frequencyLabel_2</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

@@ -1,8 +1,11 @@
 #ifndef VIEW_H
 #define VIEW_H
-class MainWindow;
+
 #include "Device.h"
 #include "Record.h"
+
+class MainWindow;
+class Device;
 
 class View {
     public:

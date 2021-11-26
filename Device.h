@@ -1,10 +1,15 @@
 #ifndef DEVICE_H
 #define DEVICE_H
+#include "mainwindow.h"
 #include "Record.h"
 #include <QObject>
 #include <QString>
 
 const int MAX_RECORDS = 256;
+
+class Records;
+class MainWindow;
+
 
 class Device : public QObject
 {
@@ -20,9 +25,10 @@ private:
     int time;
     int timeIdle; //QTimer will increment this
     Record records[MAX_RECORDS];
+    MainWindow* display;
 
 public:
-    Device();
+    Device(MainWindow*);
 
     //Setters
     void setBatteryPercentage(double);
@@ -37,13 +43,14 @@ public:
     QString getWaveform();
 
     //Functions
-    void toggle(); //on off toggle
     void toggleTouchingSkin();
     bool checkBattery(double);
     void shutDown();
 
 
 public slots:
+    void toggle(); //on off toggle
+    void changeFrequency();
     void resetTimeIdle(); //slot of the buttons
 
 };
