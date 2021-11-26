@@ -25,6 +25,7 @@ private:
     int time;
     int timeIdle; //QTimer will increment this
     Record records[MAX_RECORDS];
+    int numRecords;
     MainWindow* display;
 
 public:
@@ -46,6 +47,7 @@ public:
     void toggleTouchingSkin();
     bool checkBattery(double);
     void shutDown();
+    void addRecord(Record* r);
 
 
 public slots:

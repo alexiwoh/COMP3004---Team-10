@@ -5,6 +5,7 @@ Device::Device(MainWindow* mainWindow)
 {
     display = mainWindow;
     frequency = 0.5;
+    numRecords = 0;
 }
 
 //Setters
@@ -51,6 +52,11 @@ void Device::toggleTouchingSkin(){
 
 bool Device::checkBattery(double per){
 
+}
+
+void Device::addRecord(Record* r){
+  records[numRecords] = r;
+  numRecords++;
 }
 
 void Device::shutDown(){
