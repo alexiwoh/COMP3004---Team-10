@@ -8,6 +8,12 @@ Device::Device(MainWindow* mainWindow)
     numRecords = 0;
 }
 
+Device::~Device(){
+  for(int i = 0; i<numRecords; i++){
+    delete records[i];
+  }
+}
+
 //Setters
 void Device::setBatteryPercentage(double per){
 

@@ -24,12 +24,13 @@ private:
     QString waveform;
     int time;
     int timeIdle; //QTimer will increment this
-    Record records[MAX_RECORDS];
+    Record* records[MAX_RECORDS];
     int numRecords;
     MainWindow* display;
 
 public:
     Device(MainWindow*);
+    ~Device();
 
     //Setters
     void setBatteryPercentage(double);
