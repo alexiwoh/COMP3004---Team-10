@@ -6,6 +6,7 @@ Device::Device(MainWindow* mainWindow)
     display = mainWindow;
     frequency = 0.5;
     numRecords = 0;
+    on = true;
 }
 
 Device::~Device(){
@@ -16,7 +17,7 @@ Device::~Device(){
 
 //Setters
 void Device::setBatteryPercentage(double per){
-    batteryPercentage = per;
+
 }
 
 void Device::setFrequency(double freq){
@@ -24,16 +25,18 @@ void Device::setFrequency(double freq){
 }
 
 void Device::setCurrent(double cur){
-    current = cur;
+
 }
 
 void Device::setWaveform(QString const wave){
-    waveform = wave;
+
 }
+
+
 
 //Getters
 double Device::getBattery(){
-    return batteryPercentage;
+
 }
 
 double Device::getFrequency(){
@@ -41,19 +44,21 @@ double Device::getFrequency(){
 }
 
 double Device::getCurrent(){
-    return current;
+
 }
 
 QString Device::getWaveform(){
-    return waveform;
+
 }
 
 //functions
+
 void Device::toggleTouchingSkin(){
 
 }
 
 bool Device::checkBattery(double per){
+
 
 }
 
@@ -69,10 +74,18 @@ void Device::shutDown(){
 
 //slots
 void Device::toggle(){
+    on = !on;
+    qInfo("power button pressed");
+    if(on == true){
+      qInfo("true");
+    }
+    else{qInfo("false");}
 
+    display->updateScreen(on);
 }
 
 void Device::changeFrequency(){
+    qInfo("TEST");
     if (frequency == 0.5) {
         setFrequency(77);
         display->updateFrequency();
