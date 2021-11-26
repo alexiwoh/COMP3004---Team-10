@@ -3,7 +3,7 @@
 #include "Record.h"
 #include <QString>
 
-#define MAX_RECORDS 256;
+const int MAX_RECORDS = 256;
 
 class Device
 {
