@@ -1448,9 +1448,9 @@
    <widget class="QLabel" name="waveformLabel">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>270</x>
       <y>60</y>
-      <width>41</width>
+      <width>51</width>
       <height>20</height>
      </rect>
     </property>
@@ -1463,6 +1463,9 @@
     </property>
     <property name="text">
      <string>Alpha</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QListView" name="ListView">

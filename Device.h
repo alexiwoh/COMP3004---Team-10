@@ -21,7 +21,7 @@ private:
     double batteryPercentage;
     double current; //in milliamps
     double frequency; //0.5, 77, 100 hz
-    QString waveform;
+    QString waveform; //Alpha, Betta, Gamma (thats what the documents says lol)
     int time;
     int timeIdle; //QTimer will increment this
     Record* records[MAX_RECORDS];
@@ -54,7 +54,8 @@ public:
 public slots:
     void toggle(); //on off toggle
     void changeFrequency();
-    void resetTimeIdle(); //slot of the buttons
+    void changeWaveform();
+    void resetTimeIdle(); //for idle timer
 
 };
 

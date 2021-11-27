@@ -20,6 +20,7 @@ public:
     ~MainWindow();
 
     void updateFrequency();
+    void updateWaveform();
     void updateScreen(bool);
 
 private:

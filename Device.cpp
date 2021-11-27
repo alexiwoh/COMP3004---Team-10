@@ -3,10 +3,16 @@
 
 Device::Device(MainWindow* mainWindow)
 {
-    display = mainWindow;
+    on = false;
+    isTouchingSkin = false;
+    batteryPercentage = 100;
+    current = 100;
     frequency = 0.5;
+    waveform = "Alpha";
+    time = 0;
+    timeIdle = 0;
     numRecords = 0;
-    on = true;
+    display = mainWindow;
 }
 
 Device::~Device(){
@@ -17,7 +23,7 @@ Device::~Device(){
 
 //Setters
 void Device::setBatteryPercentage(double per){
-
+    batteryPercentage = per;
 }
 
 void Device::setFrequency(double freq){
@@ -25,18 +31,16 @@ void Device::setFrequency(double freq){
 }
 
 void Device::setCurrent(double cur){
-
+    current = cur;
 }
 
 void Device::setWaveform(QString const wave){
-
+    waveform = wave;
 }
-
-
 
 //Getters
 double Device::getBattery(){
-
+    return batteryPercentage;
 }
 
 double Device::getFrequency(){
@@ -44,11 +48,11 @@ double Device::getFrequency(){
 }
 
 double Device::getCurrent(){
-
+    return current;
 }
 
 QString Device::getWaveform(){
-
+    return waveform;
 }
 
 //functions
@@ -85,7 +89,6 @@ void Device::toggle(){
 }
 
 void Device::changeFrequency(){
-    qInfo("TEST");
     if (frequency == 0.5) {
         setFrequency(77);
         display->updateFrequency();
@@ -99,6 +102,22 @@ void Device::changeFrequency(){
         display->updateFrequency();
     }
 }
+
+void Device::changeWaveform(){
+    if (waveform == "Alpha") {
+        setWaveform("Betta");
+        display->updateWaveform();
+    }
+    else if (waveform == "Betta") {
+        setWaveform("Gamma");
+        display->updateWaveform();
+    }
+    else if (waveform == "Gamma") {
+        setWaveform("Alpha");
+        display->updateWaveform();
+    }
+}
+
 
 void Device::resetTimeIdle(){
 
