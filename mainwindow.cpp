@@ -14,6 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->powerPushButton, SIGNAL(released()), model, SLOT(toggle()));
     connect(ui->frequencyPushButton, SIGNAL(released()), model, SLOT(changeFrequency()));
     connect(ui->waveformPushButton, SIGNAL(released()), model, SLOT(changeWaveform()));
+    connect(ui->waveformPushButton, SIGNAL(released()), model, SLOT(changeWaveform()));
+
+
 }
 
 MainWindow::~MainWindow()
@@ -33,34 +36,40 @@ void MainWindow::updateWaveform()
     ui->waveformLabel->setText(model->getWaveform());
 }
 
-void MainWindow::updateScreen(bool x)
+void MainWindow::updateScreen(bool isOn)
 {
     qInfo("Screenupdating");
-    ui->label_10->setVisible(x);
-    ui->label_11->setVisible(x);
-    ui->label_12->setVisible(x);
-    ui->label_6->setVisible(x);
-    ui->label_7->setVisible(x);
-    ui->label_8->setVisible(x);
-    ui->label_9->setVisible(x);
-    ui->powerLevelProgressBar->setVisible(x);
-    ui->label_8->setVisible(x);
-    ui->label_8->setVisible(x);
-    ui->timer20Label->setVisible(x);
-    ui->timer40Label->setVisible(x);
-    ui->timer60Label->setVisible(x);
-    ui->timerLCDNumber->setVisible(x);
-    ui->waveformLabel->setVisible(x);
-    ui->frequencyLabel->setVisible(x);
-    ui->frequencyLabel_2->setVisible(x);
-    ui->batteryLabel->setVisible(x);
+    ui->label_10->setVisible(isOn);
+    ui->label_11->setVisible(isOn);
+    ui->label_12->setVisible(isOn);
+    ui->label_6->setVisible(isOn);
+    ui->label_7->setVisible(isOn);
+    ui->label_8->setVisible(isOn);
+    ui->label_9->setVisible(isOn);
+    ui->powerLevelProgressBar->setVisible(isOn);
+    ui->label_8->setVisible(isOn);
+    ui->label_8->setVisible(isOn);
+    ui->timer20Label->setVisible(isOn);
+    ui->timer40Label->setVisible(isOn);
+    ui->timer60Label->setVisible(isOn);
+    ui->timerLCDNumber->setVisible(isOn);
+    ui->waveformLabel->setVisible(isOn);
+    ui->frequencyLabel->setVisible(isOn);
+    ui->frequencyLabel_2->setVisible(isOn);
+    ui->batteryLabel->setVisible(isOn);
 
 
-    ui->recordPushButton->setEnabled(x);
-    ui->waveformPushButton->setEnabled(x);
-    ui->timerPushButton->setEnabled(x);
-    ui->upPushButton->setEnabled(x);
-    ui->downPushButton->setEnabled(x);
-    ui->frequencyPushButton->setEnabled(x);
+    ui->recordPushButton->setEnabled(isOn);
+    ui->waveformPushButton->setEnabled(isOn);
+    ui->timerPushButton->setEnabled(isOn);
+    ui->upPushButton->setEnabled(isOn);
+    ui->downPushButton->setEnabled(isOn);
+    ui->frequencyPushButton->setEnabled(isOn);
+}
+
+
+void MainWindow::on_applyToSkin_stateChanged()
+{
+    model->toggleTouchingSkin();
 }
 

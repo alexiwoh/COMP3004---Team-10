@@ -23,6 +23,10 @@ public:
     void updateWaveform();
     void updateScreen(bool);
 
+
+private slots:
+    void on_applyToSkin_stateChanged();
+
 private:
     Ui::MainWindow *ui;
     View *view;

@@ -1,9 +1,8 @@
 #include "Device.h"
-//testing if my uploading works  --sadiq
 
 Device::Device(MainWindow* mainWindow)
 {
-    on = false;
+    on = true;
     isTouchingSkin = false;
     batteryPercentage = 100;
     current = 100;
@@ -58,10 +57,16 @@ QString Device::getWaveform(){
 //functions
 
 void Device::toggleTouchingSkin(){
+    isTouchingSkin = !isTouchingSkin;
+    if(isTouchingSkin == true){
+      qInfo("touching skin");
+    }
+    else{qInfo("NOT touching skin");}
 
 }
 
 bool Device::checkBattery(double per){
+
 
 
 }
