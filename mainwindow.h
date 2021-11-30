@@ -21,7 +21,10 @@ public:
 
     void updateFrequency();
     void updateWaveform();
+    void updateTime();
+    void updateCurrent();
     void updateScreen(bool);
+    void updateRecordingLED(bool);
 
 
 private slots:

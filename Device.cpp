@@ -3,12 +3,13 @@
 Device::Device(MainWindow* mainWindow)
 {
     on = true;
+    recording = false;
     isTouchingSkin = false;
     batteryPercentage = 100;
     current = 100;
     frequency = 0.5;
     waveform = "Alpha";
-    time = 0;
+    time = 20;
     timeIdle = 0;
     numRecords = 0;
     display = mainWindow;
@@ -37,6 +38,10 @@ void Device::setWaveform(QString const wave){
     waveform = wave;
 }
 
+void Device::setTime(int timer){
+    time = timer;
+}
+
 //Getters
 double Device::getBattery(){
     return batteryPercentage;
@@ -52,6 +57,10 @@ double Device::getCurrent(){
 
 QString Device::getWaveform(){
     return waveform;
+}
+
+int Device::getTime(){
+    return time;
 }
 
 //functions
@@ -93,6 +102,11 @@ void Device::toggle(){
     display->updateScreen(on);
 }
 
+void Device::toggleRecording(){
+    recording = !recording;
+    display->updateRecordingLED(recording);
+}
+
 void Device::changeFrequency(){
     if (frequency == 0.5) {
         setFrequency(77);
@@ -123,6 +137,30 @@ void Device::changeWaveform(){
     }
 }
 
+void Device::changeTime(){
+    if (time == 20) {
+        setTime(40);
+        display->updateTime();
+    }
+    else if (time == 40) {
+        setTime(60);
+        display->updateTime();
+    }
+    else if (time == 60) {
+        setTime(20);
+        display->updateTime();
+    }
+}
+
+void Device::changeCurrentUp(){
+    current += 50;
+    display->updateCurrent();
+}
+
+void Device::changeCurrentDown(){
+    current -= 100;
+    display->updateCurrent();
+}
 
 void Device::resetTimeIdle(){
 
