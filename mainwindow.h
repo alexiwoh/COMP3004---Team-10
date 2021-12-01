@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "View.h"
+#include <QTimer>
+#include <QTime>
 
 class Device;
 class View;
@@ -29,10 +31,13 @@ public:
 
 private slots:
     void on_applyToSkin_stateChanged();
+    void timerUpdate();
 
 private:
     Ui::MainWindow *ui;
     View *view;
     Device *model;
+    QTimer* timer;
+    QTime time;
 };
 #endif // MAINWINDOW_H

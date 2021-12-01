@@ -46,6 +46,8 @@ public:
     double getCurrent();
     QString getWaveform();
     int getTime();
+    bool getSkin();
+    bool getRecording();
 
     //Functions
     void toggleTouchingSkin();

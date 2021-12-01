@@ -63,6 +63,14 @@ int Device::getTime(){
     return time;
 }
 
+bool Device::getSkin(){
+  return isTouchingSkin;
+}
+
+bool Device::getRecording(){
+  return recording;
+}
+
 //functions
 
 void Device::toggleTouchingSkin(){
@@ -83,6 +91,7 @@ bool Device::checkBattery(double per){
 void Device::addRecord(Record* r){
   records[numRecords] = r;
   numRecords++;
+  qInfo("added to records");
 }
 
 void Device::shutDown(){
@@ -105,6 +114,7 @@ void Device::toggle(){
 void Device::toggleRecording(){
     recording = !recording;
     display->updateRecordingLED(recording);
+
 }
 
 void Device::changeFrequency(){

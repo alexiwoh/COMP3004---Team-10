@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include "Record.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,6 +13,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     model->toggle(); // turn device off at the start
     updateRecordingLED(false);
+
+    time.setHMS(0,model->getTime(), 0);
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
+    timer->start(1000);
+
+    timerUpdate();
 
     //connecting buttons
     connect(ui->powerPushButton, SIGNAL(released()), model, SLOT(toggle()));
@@ -89,3 +97,16 @@ void MainWindow::on_applyToSkin_stateChanged()
     model->toggleTouchingSkin();
 }
 
+void MainWindow::timerUpdate(){
+  if(model->getSkin()){
+    time = time.addSecs(-1);
+    QString timeDisplay = time.toString("m:ss");
+    ui->timerLCDNumber->display(timeDisplay);
+    if(model->getRecording()){
+      if(model->getSkin() == false || timeDisplay == "0:00"){ //Current doesn't add record when apply to skin is toggled off, this line needs some fix
+        Record* r = new Record(model->getWaveform(), model->getFrequency(), model->getTime(), model->getCurrent());
+        model->addRecord(r);
+      }
+    }
+  }
+}
