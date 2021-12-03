@@ -7,11 +7,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
     model = new Device(this);
     view = new View(this, model);
 
-    model->toggle(); // turn device off at the start
+    //model->toggle(); // turn device off at the start
     updateRecordingLED(false);
 
     time.setHMS(0,model->getTime(), 0);
@@ -29,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->timerPushButton, SIGNAL(released()), model, SLOT(changeTime()));
     connect(ui->upPushButton, SIGNAL(released()), model, SLOT(changeCurrentUp()));
     connect(ui->downPushButton, SIGNAL(released()), model, SLOT(changeCurrentDown()));
+    connect(ui->batterySpinBox, SIGNAL(valueChanged(int)), model, SLOT(on_batterySpinBox_valueChanged()));
 }
 
 MainWindow::~MainWindow()
@@ -69,8 +71,6 @@ void MainWindow::updateScreen(bool isOn)
     ui->label_8->setVisible(isOn);
     ui->label_9->setVisible(isOn);
     ui->powerLevelProgressBar->setVisible(isOn);
-    ui->label_8->setVisible(isOn);
-    ui->label_8->setVisible(isOn);
     ui->timeLabel->setVisible(isOn);
     ui->timerLCDNumber->setVisible(isOn);
     ui->waveformLabel->setVisible(isOn);
@@ -84,6 +84,13 @@ void MainWindow::updateScreen(bool isOn)
     ui->upPushButton->setEnabled(isOn);
     ui->downPushButton->setEnabled(isOn);
     ui->frequencyPushButton->setEnabled(isOn);
+    ui->applyToSkin->setEnabled(isOn);
+
+    updateCurrent();
+    updateFrequency();
+    updateWaveform();
+    updateTime();
+
 }
 
 void MainWindow::updateRecordingLED(bool recording)
@@ -95,10 +102,18 @@ void MainWindow::updateRecordingLED(bool recording)
 void MainWindow::on_applyToSkin_stateChanged()
 {
     model->toggleTouchingSkin();
+    qInfo("TEST2");
 }
 
 void MainWindow::timerUpdate(){
+
   if(model->getSkin()){
+
+    if(model->getBattery() == 0){
+        updateScreen(false);
+    }
+      else{batteryDrain();}
+
     time = time.addSecs(-1);
     QString timeDisplay = time.toString("m:ss");
     ui->timerLCDNumber->display(timeDisplay);
@@ -106,7 +121,31 @@ void MainWindow::timerUpdate(){
       if(model->getSkin() == false || timeDisplay == "0:00"){ //Current doesn't add record when apply to skin is toggled off, this line needs some fix
         Record* r = new Record(model->getWaveform(), model->getFrequency(), model->getTime(), model->getCurrent());
         model->addRecord(r);
+
+
+
+
       }
     }
   }
 }
+
+void MainWindow::on_batterySpinBox_valueChanged(int battery)
+{
+    model->setBatteryPercentage(battery);
+    ui->batteryLabel->setText(QString::number(model->getBattery()));
+}
+
+void MainWindow::batteryDrain(){
+
+    int batteryLevel = (model->getBattery() -1);
+    on_batterySpinBox_valueChanged(batteryLevel);
+}
+
+
+
+void MainWindow::on_faultButton_clicked()
+{
+    model->shutDown();
+}
+

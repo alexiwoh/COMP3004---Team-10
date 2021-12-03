@@ -27,11 +27,14 @@ public:
     void updateCurrent();
     void updateScreen(bool);
     void updateRecordingLED(bool);
+    void batteryDrain();
 
 
-private slots:
+public slots:
     void on_applyToSkin_stateChanged();
     void timerUpdate();
+    void on_batterySpinBox_valueChanged(int);
+    void on_faultButton_clicked();
 
 private:
     Ui::MainWindow *ui;

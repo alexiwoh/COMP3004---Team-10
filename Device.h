@@ -34,7 +34,7 @@ public:
     ~Device();
 
     //Setters
-    void setBatteryPercentage(double);
+    void setBatteryPercentage(int);
     void setFrequency(double);
     void setCurrent(double);
     void setWaveform(QString const);
