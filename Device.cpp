@@ -19,10 +19,11 @@ Device::~Device(){
   for(int i = 0; i<numRecords; i++){
     delete records[i];
   }
+  qInfo("deconstructer");
 }
 
 //Setters
-void Device::setBatteryPercentage(double per){
+void Device::setBatteryPercentage(int per){
     batteryPercentage = per;
 }
 
@@ -82,11 +83,12 @@ void Device::toggleTouchingSkin(){
 
 }
 
+
 bool Device::checkBattery(double per){
 
 
-
 }
+
 
 void Device::addRecord(Record* r){
   records[numRecords] = r;
@@ -96,26 +98,33 @@ void Device::addRecord(Record* r){
 
 void Device::shutDown(){
 
+    if(on == true){
+        toggle();
+        qInfo("SHUTODNW");
+    }
 }
 
 
 //slots
 void Device::toggle(){
     on = !on;
-    qInfo("power button pressed");
-    if(on == true){
-      qInfo("true");
-    }
-    else{qInfo("false");}
-
+    setBatteryPercentage(100);
+    setFrequency(0.5);
+    setCurrent(100);
+    setWaveform("Alpha");
+    setTime(20);
+    if(isTouchingSkin == true) {toggleTouchingSkin();}
     display->updateScreen(on);
 }
+
 
 void Device::toggleRecording(){
     recording = !recording;
     display->updateRecordingLED(recording);
 
+
 }
+
 
 void Device::changeFrequency(){
     if (frequency == 0.5) {
@@ -132,6 +141,7 @@ void Device::changeFrequency(){
     }
 }
 
+
 void Device::changeWaveform(){
     if (waveform == "Alpha") {
         setWaveform("Betta");
@@ -146,6 +156,7 @@ void Device::changeWaveform(){
         display->updateWaveform();
     }
 }
+
 
 void Device::changeTime(){
     if (time == 20) {
@@ -162,14 +173,24 @@ void Device::changeTime(){
     }
 }
 
+
 void Device::changeCurrentUp(){
-    current += 50;
-    display->updateCurrent();
+    if(current < 500){
+        setCurrent(current += 50);
+        display->updateCurrent();
+    }
 }
 
+
 void Device::changeCurrentDown(){
-    current -= 100;
-    display->updateCurrent();
+    if(current > 100){
+        setCurrent(current -= 100);
+        display->updateCurrent();
+    }
+    else{
+        setCurrent(50);
+        display->updateCurrent();
+    }
 }
 
 void Device::resetTimeIdle(){
