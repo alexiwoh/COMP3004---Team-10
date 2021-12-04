@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     view = new View(this, model);
 
     //model->toggle(); // turn device off at the start
-    updateRecordingLED(false);
+    updateRecordingLED(true);
 
     time.setHMS(0,model->getTime(), 0);
     timer = new QTimer(this);
@@ -23,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     timerUpdate();
 
     //connecting buttons
-    connect(ui->powerPushButton, SIGNAL(released()), model, SLOT(toggle()));
+    //connect(ui->powerPushButton, SIGNAL(released()), model, SLOT(toggle()));
+    connect(ui->powerPushButton, SIGNAL(released()), this, SLOT(on_power_off()));
     connect(ui->recordPushButton, SIGNAL(released()), model, SLOT(toggleRecording()));
     connect(ui->frequencyPushButton, SIGNAL(released()), model, SLOT(changeFrequency()));
     connect(ui->waveformPushButton, SIGNAL(released()), model, SLOT(changeWaveform()));
@@ -91,6 +92,8 @@ void MainWindow::updateScreen(bool isOn)
     updateWaveform();
     updateTime();
 
+
+
 }
 
 void MainWindow::updateRecordingLED(bool recording)
@@ -102,11 +105,14 @@ void MainWindow::updateRecordingLED(bool recording)
 void MainWindow::on_applyToSkin_stateChanged()
 {
     model->toggleTouchingSkin();
+    model->updateRecords();
+    ui->recordsTextEdit->setPlainText(model->getRecordsAsText());
     qInfo("TEST2");
 }
 
 void MainWindow::timerUpdate(){
-
+    //model->updateRecords();
+    model->updateTimes();
   if(model->getSkin()){
 
     if(model->getBattery() == 0){
@@ -117,23 +123,15 @@ void MainWindow::timerUpdate(){
     time = time.addSecs(-1);
     QString timeDisplay = time.toString("m:ss");
     ui->timerLCDNumber->display(timeDisplay);
-    if(model->getRecording()){
-      if(model->getSkin() == false || timeDisplay == "0:00"){ //Current doesn't add record when apply to skin is toggled off, this line needs some fix
-        Record* r = new Record(model->getWaveform(), model->getFrequency(), model->getTime(), model->getCurrent());
-        model->addRecord(r);
 
-
-
-
-      }
-    }
   }
+
 }
 
 void MainWindow::on_batterySpinBox_valueChanged(int battery)
 {
     model->setBatteryPercentage(battery);
-    ui->batteryLabel->setText(QString::number(model->getBattery()));
+    ui->batteryLabel->setText(QString::number(model->getBattery()) + "%");
 }
 
 void MainWindow::batteryDrain(){
@@ -147,5 +145,10 @@ void MainWindow::batteryDrain(){
 void MainWindow::on_faultButton_clicked()
 {
     model->shutDown();
+}
+
+void MainWindow::on_power_off() {
+    model->toggle();
+    ui->applyToSkin->setChecked(false);
 }
 

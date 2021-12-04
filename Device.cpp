@@ -1,9 +1,10 @@
 #include "Device.h"
+#include <QTimer>
 
 Device::Device(MainWindow* mainWindow)
 {
     on = true;
-    recording = false;
+    recording = true;
     isTouchingSkin = false;
     batteryPercentage = 100;
     current = 100;
@@ -13,6 +14,7 @@ Device::Device(MainWindow* mainWindow)
     timeIdle = 0;
     numRecords = 0;
     display = mainWindow;
+
 }
 
 Device::~Device(){
@@ -72,33 +74,63 @@ bool Device::getRecording(){
   return recording;
 }
 
+QString Device::getTimeElapsed()    {
+    return QDateTime::fromTime_t(timeElapsed).toString("hh:mm:ss");
+}
+
+QString Device::getRecordsAsText()  {
+    QString s = "";
+    QString line = "-------------------------\n";
+    for(int i=numRecords-1; i>=0; --i) {
+        s += line;
+        s += "RECORD " + QString::number(i) + "\n";
+        s += line;
+        s += records[i]->getRecordData();
+    }
+    return s;
+}
+
 //functions
 
+void Device::updateRecords()    {
+    if(numRecords < 1 || !recording)  return;
+    records[numRecords-1]->addState(waveform,frequency,time,current,getTimeElapsed());
+}
+
+void Device::updateTimes()  {
+    if(!isTouchingSkin)   {
+        timeIdle++;
+    }
+    timeElapsed++;
+}
+
 void Device::toggleTouchingSkin(){
+    if(!isTouchingSkin && on && recording) {
+        addRecord(new Record());
+    }
     isTouchingSkin = !isTouchingSkin;
     if(isTouchingSkin == true){
       qInfo("touching skin");
     }
-    else{qInfo("NOT touching skin");}
-
+    else{qInfo("NOT touching skin");
+    }
+    resetTimeIdle();
 }
 
 
 bool Device::checkBattery(double per){
-
-
+    return true;
 }
 
 
 void Device::addRecord(Record* r){
-  records[numRecords] = r;
-  numRecords++;
+  records[numRecords++] = r;
   qInfo("added to records");
 }
 
 void Device::shutDown(){
 
-    if(on == true){
+    if(on){
         toggle();
         qInfo("SHUTODNW");
     }
@@ -107,14 +139,23 @@ void Device::shutDown(){
 
 //slots
 void Device::toggle(){
+    if(!on)  {
+        timeElapsed = 0;
+        resetTimeIdle();
+        recording = true;
+
+    }
+    isTouchingSkin = false;
     on = !on;
     setBatteryPercentage(100);
     setFrequency(0.5);
     setCurrent(100);
     setWaveform("Alpha");
     setTime(20);
-    if(isTouchingSkin == true) {toggleTouchingSkin();}
+
     display->updateScreen(on);
+
+
 }
 
 
@@ -194,5 +235,5 @@ void Device::changeCurrentDown(){
 }
 
 void Device::resetTimeIdle(){
-
+    timeIdle = 0;
 }

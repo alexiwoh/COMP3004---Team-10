@@ -1,3 +1,7 @@
+/*
+ * This class handles the display elements of the application window.
+*/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -21,6 +25,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    // Setters to uodate display elements.
     void updateFrequency();
     void updateWaveform();
     void updateTime();
@@ -31,10 +36,11 @@ public:
 
 
 public slots:
-    void on_applyToSkin_stateChanged();
-    void timerUpdate();
+    void on_applyToSkin_stateChanged(); // Handles checkbox value changes.
+    void timerUpdate(); // Periodically changes to display elements.
     void on_batterySpinBox_valueChanged(int);
-    void on_faultButton_clicked();
+    void on_faultButton_clicked(); // Handles fault button checkbox.
+    void on_power_off(); // Handles power off.
 
 private:
     Ui::MainWindow *ui;

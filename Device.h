@@ -1,3 +1,7 @@
+/*
+ * Device class stores the state of the Device. The main window displays based on the Device data.
+*/
+
 #ifndef DEVICE_H
 #define DEVICE_H
 #include "mainwindow.h"
@@ -16,15 +20,16 @@ class Device : public QObject
 Q_OBJECT
 
 private:
-    bool on;
-    bool recording;
-    bool isTouchingSkin;
+    bool on; // Stores whether the device is on.
+    bool recording; // Stores whether the device is currently recording.
+    bool isTouchingSkin; // Stores whether the device is touching the patient's skin.
     double batteryPercentage;
     double current; //in milliamps
     double frequency; //0.5, 77, 100 hz
     QString waveform; //Alpha, Betta, Gamma
     int time; //20, 40, 60
-    int timeIdle; //QTimer will increment this
+    int timeIdle; // In seconds. QTimer will increment this. Represents the time the device has been idle.
+    int timeElapsed;  // In seconds. QTimer will increment this. Represents the time the device has been on.
     Record* records[MAX_RECORDS];
     int numRecords;
     MainWindow* display;
@@ -48,8 +53,10 @@ public:
     int getTime();
     bool getSkin();
     bool getRecording();
+    QString getRecordsAsText();
+    QString getTimeElapsed();
 
-    //Functions
+    // Functions
     void toggleTouchingSkin();
     bool checkBattery(double);
     void shutDown();
@@ -57,15 +64,17 @@ public:
 
 
 public slots:
-    void toggle(); //on off toggle
-    void toggleRecording();
+    // Setters and state changes.
+    void toggle(); // on-off toggle.
+    void toggleRecording(); // Negates recording boolean value.
     void changeFrequency();
     void changeWaveform();
     void changeTime();
-    void changeCurrentUp(); //59 incrementing
-    void changeCurrentDown(); // 100 decrementing
-    void resetTimeIdle(); //for idle timer
-
+    void changeCurrentUp(); // 59 incrementing.
+    void changeCurrentDown(); // 100 decrementing.
+    void resetTimeIdle(); // Resets idle timer variable.
+    void updateRecords(); // Add a state to the current Record.
+    void updateTimes(); // Incrememnts time keeping variables.
 };
 
 

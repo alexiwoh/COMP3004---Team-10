@@ -1,0 +1,25 @@
+---------------------------------------------------------------------------------------------------
+TEAM 10
+Github repository: https://github.com/jk-kevin/COMP3004---Team-10
+---------------------------------------------------------------------------------------------------
+Members:
+    Alexander Iwoh
+    Kevin Vuong
+    Sadiq Ali
+    Jason Nguyen
+---------------------------------------------------------------------------------------------------
+The program is a simulation of the The Alpha-Stim CES device.
+Implementation and testing are in C++ using the Qt framework in QtCreator.
+When run the user is presented with a screen with various buttons.
+There are buttons to change the Waveform, frequency, and timer variables,
+up/down arrows to change the current (in milliamps), and power button.
+There is also a Record button that when activated records the session data when
+the device is touching the patient (check the "Apply to Skin" checkbox): the Record
+button must be activated when the checkbox is activated to start a recording then
+the recording ends when the checkbox is unchecked.
+---------------------------------------------------------------------------------------------------
+Included Files:
+mainwindow.ui, mainwindow.h, mainwindow.cc      - Handles the display. Is a View and Control object.
+Device.h, Device.cc                             - Stores the state of the device.
+Record.h, Record.cc                             - Stores the data for a recording.
+---------------------------------------------------------------------------------------------------
