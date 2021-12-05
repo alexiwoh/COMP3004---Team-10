@@ -29,24 +29,23 @@ public:
     void updateFrequency();
     void updateWaveform();
     void updateTime();
+    void updateTimer();
     void updateCurrent();
+    void updateBattery();
     void updateScreen(bool);
     void updateRecordingLED(bool);
-    void batteryDrain();
-
+    void updateCircuitLED(bool);
+    void updateBatteryLED(bool);
+    void updateApplyToSkin(bool);
 
 public slots:
     void on_applyToSkin_stateChanged(); // Handles checkbox value changes.
-    void timerUpdate(); // Periodically changes to display elements.
     void on_batterySpinBox_valueChanged(int);
     void on_faultButton_clicked(); // Handles fault button checkbox.
-    void on_power_off(); // Handles power off.
 
 private:
     Ui::MainWindow *ui;
     View *view;
     Device *model;
-    QTimer* timer;
-    QTime time;
 };
 #endif // MAINWINDOW_H

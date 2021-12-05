@@ -27,7 +27,9 @@ private:
     double current; //in milliamps
     double frequency; //0.5, 77, 100 hz
     QString waveform; //Alpha, Betta, Gamma
+    QTimer* timer; //Timer that counts down the time during a session and idle timer when not touching skin
     int time; //20, 40, 60
+    int countDown; //counts down the time in a session
     int timeIdle; // In seconds. QTimer will increment this. Represents the time the device has been idle.
     int timeElapsed;  // In seconds. QTimer will increment this. Represents the time the device has been on.
     Record* records[MAX_RECORDS];
@@ -51,6 +53,7 @@ public:
     double getCurrent();
     QString getWaveform();
     int getTime();
+    int getCountDown();
     bool getSkin();
     bool getRecording();
     QString getRecordsAsText();
@@ -58,9 +61,10 @@ public:
 
     // Functions
     void toggleTouchingSkin();
-    bool checkBattery(double);
-    void shutDown();
+    void checkSession();
+    void checkBattery();
     void addRecord(Record* r);
+
 
 
 public slots:
@@ -75,6 +79,9 @@ public slots:
     void resetTimeIdle(); // Resets idle timer variable.
     void updateRecords(); // Add a state to the current Record.
     void updateTimes(); // Incrememnts time keeping variables.
+
+private slots:
+    void timerUpdate();
 };
 
 

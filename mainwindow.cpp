@@ -12,19 +12,13 @@ MainWindow::MainWindow(QWidget *parent)
     model = new Device(this);
     view = new View(this, model);
 
-    //model->toggle(); // turn device off at the start
+    //setup inital LEDs
     updateRecordingLED(true);
-
-    time.setHMS(0,model->getTime(), 0);
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
-    timer->start(1000);
-
-    timerUpdate();
+    updateCircuitLED(false);
+    updateBatteryLED(false);
 
     //connecting buttons
-    //connect(ui->powerPushButton, SIGNAL(released()), model, SLOT(toggle()));
-    connect(ui->powerPushButton, SIGNAL(released()), this, SLOT(on_power_off()));
+    connect(ui->powerPushButton, SIGNAL(released()), model, SLOT(toggle()));
     connect(ui->recordPushButton, SIGNAL(released()), model, SLOT(toggleRecording()));
     connect(ui->frequencyPushButton, SIGNAL(released()), model, SLOT(changeFrequency()));
     connect(ui->waveformPushButton, SIGNAL(released()), model, SLOT(changeWaveform()));
@@ -56,9 +50,24 @@ void MainWindow::updateTime()
     ui->timeLabel->setText(QString::number(model->getTime()));
 }
 
+void MainWindow::updateTimer(){
+    QTime timeLED(0, 0, 0);
+    timeLED = timeLED.addSecs(int(model->getCountDown()));
+
+    //timeLED = QTime::currentTime();
+    QString timeDisplay = timeLED.toString("s");
+    ui->timerLCDNumber->display(timeDisplay);
+}
+
 void MainWindow::updateCurrent()
 {
     ui->powerLevelProgressBar->setValue(model->getCurrent());
+}
+
+void MainWindow::updateBattery()
+{
+    ui->batteryLabel->setText(QString::number(model->getBattery()) + "%");
+    on_batterySpinBox_valueChanged(model->getBattery());
 }
 
 void MainWindow::updateScreen(bool isOn)
@@ -78,6 +87,8 @@ void MainWindow::updateScreen(bool isOn)
     ui->frequencyLabel->setVisible(isOn);
     ui->frequencyLabel_2->setVisible(isOn);
     ui->batteryLabel->setVisible(isOn);
+    ui->recordingLED->setVisible(isOn);
+    ui->circuitCheckLED_2->setVisible(false);
 
     ui->recordPushButton->setEnabled(isOn);
     ui->waveformPushButton->setEnabled(isOn);
@@ -87,45 +98,41 @@ void MainWindow::updateScreen(bool isOn)
     ui->frequencyPushButton->setEnabled(isOn);
     ui->applyToSkin->setEnabled(isOn);
 
+    ui->applyToSkin->setChecked(false);
+
     updateCurrent();
     updateFrequency();
     updateWaveform();
     updateTime();
-
-
-
 }
 
 void MainWindow::updateRecordingLED(bool recording)
 {
-    //ui->recordingLED->setStyleSheet("background-color: red");
     ui->recordingLED->setVisible(recording);
+}
+
+void MainWindow::updateCircuitLED(bool isTouchingSkin)
+{
+    ui->circuitCheckLED_2->setVisible(isTouchingSkin);
+}
+
+void MainWindow::updateBatteryLED(bool lowBattery)
+{
+    ui->batteryLED_2->setVisible(lowBattery);
+}
+
+void MainWindow::updateApplyToSkin(bool apply)
+{
+    ui->applyToSkin->setChecked(apply);
 }
 
 void MainWindow::on_applyToSkin_stateChanged()
 {
-    model->toggleTouchingSkin();
-    model->updateRecords();
-    ui->recordsTextEdit->setPlainText(model->getRecordsAsText());
-    qInfo("TEST2");
-}
-
-void MainWindow::timerUpdate(){
-    //model->updateRecords();
-    model->updateTimes();
-  if(model->getSkin()){
-
-    if(model->getBattery() == 0){
-        updateScreen(false);
+    if (ui->applyToSkin->isChecked() == true) {
+        model->toggleTouchingSkin();
+        model->updateRecords();
+        ui->recordsTextEdit->setPlainText(model->getRecordsAsText());
     }
-      else{batteryDrain();}
-
-    time = time.addSecs(-1);
-    QString timeDisplay = time.toString("m:ss");
-    ui->timerLCDNumber->display(timeDisplay);
-
-  }
-
 }
 
 void MainWindow::on_batterySpinBox_valueChanged(int battery)
@@ -134,21 +141,9 @@ void MainWindow::on_batterySpinBox_valueChanged(int battery)
     ui->batteryLabel->setText(QString::number(model->getBattery()) + "%");
 }
 
-void MainWindow::batteryDrain(){
-
-    int batteryLevel = (model->getBattery() -1);
-    on_batterySpinBox_valueChanged(batteryLevel);
-}
-
-
-
 void MainWindow::on_faultButton_clicked()
 {
-    model->shutDown();
+    model->toggle();
 }
 
-void MainWindow::on_power_off() {
-    model->toggle();
-    ui->applyToSkin->setChecked(false);
-}
 

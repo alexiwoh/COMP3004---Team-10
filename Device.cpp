@@ -10,11 +10,15 @@ Device::Device(MainWindow* mainWindow)
     current = 100;
     frequency = 0.5;
     waveform = "Alpha";
+    timer = new QTimer(this);
     time = 20;
+    countDown = -1;
     timeIdle = 0;
     numRecords = 0;
     display = mainWindow;
 
+    connect(timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
+    timer->start(1000);
 }
 
 Device::~Device(){
@@ -66,6 +70,10 @@ int Device::getTime(){
     return time;
 }
 
+int Device::getCountDown(){
+    return countDown;
+}
+
 bool Device::getSkin(){
   return isTouchingSkin;
 }
@@ -98,28 +106,54 @@ void Device::updateRecords()    {
 }
 
 void Device::updateTimes()  {
-    if(!isTouchingSkin)   {
+    if(!isTouchingSkin) {
+        if (timeIdle >= 10) {
+            toggle();
+            timer->stop();
+            return;
+        }
         timeIdle++;
     }
     timeElapsed++;
+    timer->start(1000);
 }
 
 void Device::toggleTouchingSkin(){
+    resetTimeIdle();
+
     if(!isTouchingSkin && on && recording) {
         addRecord(new Record());
     }
     isTouchingSkin = !isTouchingSkin;
-    if(isTouchingSkin == true){
-      qInfo("touching skin");
+    if(isTouchingSkin == true){ //touching skin
+        qInfo("touching skin");
+        display->updateCircuitLED(isTouchingSkin);
+        countDown = time;
     }
-    else{qInfo("NOT touching skin");
+    else{
+        qInfo("NOT touching skin"); //not touching skin
+        display->updateCircuitLED(isTouchingSkin);
     }
     resetTimeIdle();
 }
 
 
-bool Device::checkBattery(double per){
-    return true;
+void Device::checkSession(){
+    if (countDown <= 0) {
+        isTouchingSkin = false;
+        display->updateApplyToSkin(false);
+        display->updateCircuitLED(false);
+    }
+}
+
+
+void Device::checkBattery(){
+    if (batteryPercentage <= 5) {
+        display->updateBatteryLED(true);
+    }
+    else {
+        display->updateBatteryLED(false);
+    }
 }
 
 
@@ -128,46 +162,63 @@ void Device::addRecord(Record* r){
   qInfo("added to records");
 }
 
-void Device::shutDown(){
+void Device::timerUpdate() {
+    if(isTouchingSkin){
+        display->updateTimer();
 
-    if(on){
-        toggle();
-        qInfo("SHUTODNW");
+        if(batteryPercentage == 0){
+            display->updateScreen(false);
+        }
+        else{
+            countDown -= 1;
+            checkSession();
+            display->updateTimer();
+            batteryPercentage -= 1;
+            checkBattery();
+            display->updateBattery();
+        }
+        timer->start(1000);
+    }
+    else { //idle timer
+        updateTimes();
     }
 }
 
-
 //slots
 void Device::toggle(){
-    if(!on)  {
+    if(on == false)  { //off to on
         timeElapsed = 0;
         resetTimeIdle();
         recording = true;
-
+        timer->start(1000);
+        recording = true;
+        setFrequency(0.5);
+        setCurrent(100);
+        setWaveform("Alpha");
+        setTime(20);
+        checkBattery();
     }
-    isTouchingSkin = false;
+    else if (on == true){ //on to off
+        isTouchingSkin = false;
+        timer->stop();
+        display->updateBatteryLED(false);
+    }
     on = !on;
-    setBatteryPercentage(100);
-    setFrequency(0.5);
-    setCurrent(100);
-    setWaveform("Alpha");
-    setTime(20);
-
     display->updateScreen(on);
-
-
 }
 
 
 void Device::toggleRecording(){
+    resetTimeIdle();
+
     recording = !recording;
     display->updateRecordingLED(recording);
-
-
 }
 
 
 void Device::changeFrequency(){
+    resetTimeIdle();
+
     if (frequency == 0.5) {
         setFrequency(77);
         display->updateFrequency();
@@ -184,6 +235,8 @@ void Device::changeFrequency(){
 
 
 void Device::changeWaveform(){
+    resetTimeIdle();
+
     if (waveform == "Alpha") {
         setWaveform("Betta");
         display->updateWaveform();
@@ -200,6 +253,8 @@ void Device::changeWaveform(){
 
 
 void Device::changeTime(){
+    resetTimeIdle();
+
     if (time == 20) {
         setTime(40);
         display->updateTime();
@@ -216,6 +271,8 @@ void Device::changeTime(){
 
 
 void Device::changeCurrentUp(){
+    resetTimeIdle();
+
     if(current < 500){
         setCurrent(current += 50);
         display->updateCurrent();
@@ -224,6 +281,8 @@ void Device::changeCurrentUp(){
 
 
 void Device::changeCurrentDown(){
+    resetTimeIdle();
+
     if(current > 100){
         setCurrent(current -= 100);
         display->updateCurrent();
@@ -236,4 +295,5 @@ void Device::changeCurrentDown(){
 
 void Device::resetTimeIdle(){
     timeIdle = 0;
+    qInfo("reset idle time");
 }
