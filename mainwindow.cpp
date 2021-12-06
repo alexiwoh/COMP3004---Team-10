@@ -35,6 +35,11 @@ MainWindow::~MainWindow()
     delete view;
 }
 
+void MainWindow::updateRecordText()
+{
+    ui->recordsTextEdit->setPlainText(model->getRecordsAsText());
+}
+
 void MainWindow::updateFrequency()
 {
     ui->frequencyLabel->setText(QString::number(model->getFrequency()));
@@ -130,7 +135,7 @@ void MainWindow::on_applyToSkin_stateChanged()
 {
     if (ui->applyToSkin->isChecked() == true) {
         model->toggleTouchingSkin();
-        model->updateRecords();
+        if(model->getRecording())    model->updateRecords();
         ui->recordsTextEdit->setPlainText(model->getRecordsAsText());
     }
 }

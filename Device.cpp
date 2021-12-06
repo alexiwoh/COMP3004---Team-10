@@ -101,8 +101,7 @@ QString Device::getRecordsAsText()  {
 //functions
 
 void Device::updateRecords()    {
-    if(numRecords < 1 || !recording)  return;
-    records[numRecords-1]->addState(waveform,frequency,time,current,getTimeElapsed());
+    records[numRecords-1]->setPower(current);
 }
 
 void Device::updateTimes()  {
@@ -122,7 +121,7 @@ void Device::toggleTouchingSkin(){
     resetTimeIdle();
 
     if(!isTouchingSkin && on && recording) {
-        addRecord(new Record());
+        addRecord(new Record(getTimeElapsed(),waveform,frequency,time,current));
     }
     isTouchingSkin = !isTouchingSkin;
     if(isTouchingSkin == true){ //touching skin
@@ -143,6 +142,9 @@ void Device::checkSession(){
         isTouchingSkin = false;
         display->updateApplyToSkin(false);
         display->updateCircuitLED(false);
+        if(recording)   updateRecords();
+        display->updateRecordText();
+
     }
 }
 
@@ -210,7 +212,10 @@ void Device::toggle(){
 
 void Device::toggleRecording(){
     resetTimeIdle();
-
+    if(isTouchingSkin)  {
+        qInfo("Cannot start/stop recording within a session.");
+        return;
+    }
     recording = !recording;
     display->updateRecordingLED(recording);
 }

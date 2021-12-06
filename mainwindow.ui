@@ -81,16 +81,6 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPlainTextEdit" name="recordsTextEdit">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>140</y>
-       <width>341</width>
-       <height>261</height>
-      </rect>
-     </property>
-    </widget>
    </widget>
    <widget class="QPushButton" name="greenBackground">
     <property name="enabled">
@@ -3365,6 +3355,16 @@
      <string/>
     </property>
    </widget>
+   <widget class="QPlainTextEdit" name="recordsTextEdit">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>310</y>
+      <width>181</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>greyBackground</zorder>
    <zorder>greenBackground</zorder>
    <zorder>groupBox</zorder>
@@ -3398,6 +3398,7 @@
    <zorder>batteryLED_2</zorder>
    <zorder>circuitCheckLED_2</zorder>
    <zorder>timerLCDNumber</zorder>
+   <zorder>recordsTextEdit</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
