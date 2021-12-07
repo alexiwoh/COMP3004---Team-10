@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include "Record.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     model = new Device(this);
     view = new View(this, model);
 
+    ui->batterySpinBox->setRange(0,100);
     //setup inital LEDs
     updateRecordingLED(true);
     updateCircuitLED(false);
@@ -151,4 +153,6 @@ void MainWindow::on_faultButton_clicked()
     model->toggle();
 }
 
-
+void MainWindow::batteryWarning(){
+  QMessageBox::warning(this, tr("Alpha-Stim CES Simulator"), tr("Low Battery."));
+}

@@ -38,6 +38,7 @@ public:
     void updateBatteryLED(bool);
     void updateApplyToSkin(bool);
     void updateRecordText();
+    void batteryWarning();
 
 public slots:
     void on_applyToSkin_stateChanged(); // Handles checkbox value changes.

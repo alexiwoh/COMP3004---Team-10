@@ -106,7 +106,7 @@ void Device::updateRecords()    {
 
 void Device::updateTimes()  {
     if(!isTouchingSkin) {
-        if (timeIdle >= 10) {
+        if (timeIdle >= 20) {
             toggle();
             timer->stop();
             return;
@@ -152,6 +152,12 @@ void Device::checkSession(){
 void Device::checkBattery(){
     if (batteryPercentage <= 5) {
         display->updateBatteryLED(true);
+        if(batteryPercentage == 4){
+          display->batteryWarning();
+        }
+        else if(batteryPercentage == 1){
+          display->batteryWarning();
+        }
     }
     else {
         display->updateBatteryLED(false);
@@ -170,6 +176,9 @@ void Device::timerUpdate() {
 
         if(batteryPercentage == 0){
             display->updateScreen(false);
+            toggle();
+            timer->stop();
+            return;
         }
         else{
             countDown -= 1;
