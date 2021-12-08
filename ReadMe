@@ -10,6 +10,9 @@ Members:
         - Program logic
         - Diagrams
     Sadiq Ali
+        - Implemented battery, power, and fault functions
+        - Program logic
+        - Diagrams
     Jason Nguyen
         - Worked on Record.h and Record.cpp. Added addRecord() function to Device.
 ---------------------------------------------------------------------------------------------------
