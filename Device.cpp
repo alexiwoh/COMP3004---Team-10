@@ -6,6 +6,7 @@ Device::Device(MainWindow* mainWindow)
     on = true;
     recording = true;
     isTouchingSkin = false;
+    gracePeriod = false;
     batteryPercentage = 100;
     current = 100;
     frequency = 0.5;
@@ -50,6 +51,10 @@ void Device::setTime(int timer){
 }
 
 //Getters
+bool Device::getOn(){
+    return on;
+}
+
 double Device::getBattery(){
     return batteryPercentage;
 }
@@ -105,11 +110,15 @@ void Device::updateRecords()    {
 }
 
 void Device::updateTimes()  {
-    if(!isTouchingSkin) {
-        if (timeIdle >= 20) {
+    if(isTouchingSkin == false) {
+        if (timeIdle >= 30) { //shutdown cause idle
             toggle();
             timer->stop();
             return;
+        }
+        else if (timeIdle >= 5 && gracePeriod == true) { //stop treatment
+            countDown = time;
+            display->updateTimer();
         }
         timeIdle++;
     }
@@ -127,10 +136,13 @@ void Device::toggleTouchingSkin(){
     if(isTouchingSkin == true){ //touching skin
         qInfo("touching skin");
         display->updateCircuitLED(isTouchingSkin);
-        countDown = time;
+        if (gracePeriod == false) {
+            countDown = time;
+        }
     }
     else{
         qInfo("NOT touching skin"); //not touching skin
+        gracePeriod = true;
         display->updateCircuitLED(isTouchingSkin);
     }
     resetTimeIdle();
@@ -152,10 +164,10 @@ void Device::checkSession(){
 void Device::checkBattery(){
     if (batteryPercentage <= 5) {
         display->updateBatteryLED(true);
-        if(batteryPercentage == 4){
+        if(batteryPercentage == 5){
           display->batteryWarning();
         }
-        else if(batteryPercentage == 1){
+        else if(batteryPercentage == 2){
           display->batteryWarning();
         }
     }
@@ -174,7 +186,7 @@ void Device::timerUpdate() {
     if(isTouchingSkin){
         display->updateTimer();
 
-        if(batteryPercentage == 0){
+        if(batteryPercentage == 2){
             display->updateScreen(false);
             toggle();
             timer->stop();
@@ -185,8 +197,8 @@ void Device::timerUpdate() {
             checkSession();
             display->updateTimer();
             batteryPercentage -= 1;
-            checkBattery();
             display->updateBattery();
+            checkBattery();
         }
         timer->start(1000);
     }
@@ -208,10 +220,13 @@ void Device::toggle(){
         setWaveform("Alpha");
         setTime(20);
         checkBattery();
+        countDown = time;
     }
     else if (on == true){ //on to off
-        isTouchingSkin = false;
+        //isTouchingSkin = false;
+        gracePeriod = false;
         timer->stop();
+        display->updateCircuitLED(false);
         display->updateBatteryLED(false);
     }
     on = !on;
@@ -302,7 +317,7 @@ void Device::changeCurrentDown(){
         display->updateCurrent();
     }
     else{
-        setCurrent(50);
+        setCurrent(0);
         display->updateCurrent();
     }
 }

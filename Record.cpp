@@ -11,7 +11,7 @@ QString Record::getRecordData() {
     s += "Waveform: " + waveform + "\n";
     s += "Frequency: " + QString::number(frequency) + "Hz\n";
     s += "Duration: " + QString::number(duration) + "s\n";
-    s += "Current: " +  QString::number(powerLevel) + "mA\n";
+    s += "Current: " +  QString::number(powerLevel) + "uA\n";
     return s;
 }
 

@@ -38,5 +38,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     ReadMe \
-    What each person did for week 2 \
-    WhatEachPersonDid
+    What each person did for week 2

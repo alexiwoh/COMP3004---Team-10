@@ -14,10 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
     view = new View(this, model);
 
     ui->batterySpinBox->setRange(0,100);
+    ui->recordsCover->setVisible(false);
     //setup inital LEDs
     updateRecordingLED(true);
     updateCircuitLED(false);
     updateBatteryLED(false);
+
 
     //connecting buttons
     connect(ui->powerPushButton, SIGNAL(released()), model, SLOT(toggle()));
@@ -27,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->timerPushButton, SIGNAL(released()), model, SLOT(changeTime()));
     connect(ui->upPushButton, SIGNAL(released()), model, SLOT(changeCurrentUp()));
     connect(ui->downPushButton, SIGNAL(released()), model, SLOT(changeCurrentDown()));
-    connect(ui->batterySpinBox, SIGNAL(valueChanged(int)), model, SLOT(on_batterySpinBox_valueChanged()));
+    //connect(ui->batterySpinBox, SIGNAL(valueChanged(int)), model, SLOT(on_batterySpinBox_valueChanged()));
 }
 
 MainWindow::~MainWindow()
@@ -60,8 +62,6 @@ void MainWindow::updateTime()
 void MainWindow::updateTimer(){
     QTime timeLED(0, 0, 0);
     timeLED = timeLED.addSecs(int(model->getCountDown()));
-
-    //timeLED = QTime::currentTime();
     QString timeDisplay = timeLED.toString("s");
     ui->timerLCDNumber->display(timeDisplay);
 }
@@ -96,6 +96,7 @@ void MainWindow::updateScreen(bool isOn)
     ui->batteryLabel->setVisible(isOn);
     ui->recordingLED->setVisible(isOn);
     ui->circuitCheckLED_2->setVisible(false);
+    ui->recordsCover->setVisible(!isOn);
 
     ui->recordPushButton->setEnabled(isOn);
     ui->waveformPushButton->setEnabled(isOn);
@@ -104,6 +105,8 @@ void MainWindow::updateScreen(bool isOn)
     ui->downPushButton->setEnabled(isOn);
     ui->frequencyPushButton->setEnabled(isOn);
     ui->applyToSkin->setEnabled(isOn);
+    ui->batterySpinBox->setEnabled(isOn);
+    ui->faultButton->setEnabled(isOn);
 
     ui->applyToSkin->setChecked(false);
 
@@ -111,6 +114,7 @@ void MainWindow::updateScreen(bool isOn)
     updateFrequency();
     updateWaveform();
     updateTime();
+    ui->timerLCDNumber->display(0);
 }
 
 void MainWindow::updateRecordingLED(bool recording)
@@ -135,8 +139,8 @@ void MainWindow::updateApplyToSkin(bool apply)
 
 void MainWindow::on_applyToSkin_stateChanged()
 {
+    model->toggleTouchingSkin();
     if (ui->applyToSkin->isChecked() == true) {
-        model->toggleTouchingSkin();
         if(model->getRecording())    model->updateRecords();
         ui->recordsTextEdit->setPlainText(model->getRecordsAsText());
     }

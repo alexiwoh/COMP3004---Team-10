@@ -4,9 +4,14 @@ Github repository: https://github.com/jk-kevin/COMP3004---Team-10
 ---------------------------------------------------------------------------------------------------
 Members:
     Alexander Iwoh
+        - Created View files. Worked on Record.h and Record.cc.
     Kevin Vuong
+        - UI
+        - Program logic
+        - Diagrams
     Sadiq Ali
     Jason Nguyen
+        - Worked on Record.h and Record.cpp. Added addRecord() function to Device.
 ---------------------------------------------------------------------------------------------------
 The program is a simulation of the The Alpha-Stim CES device.
 Implementation and testing are in C++ using the Qt framework in QtCreator.
@@ -23,3 +28,36 @@ mainwindow.ui, mainwindow.h, mainwindow.cc      - Handles the display. Is a View
 Device.h, Device.cc                             - Stores the state of the device.
 Record.h, Record.cc                             - Stores the data for a recording.
 ---------------------------------------------------------------------------------------------------
+Tested scenarios:
+    ON/OFF Switch:
+    Run the simulator and press the power button.
+
+    Check when electrodes are in contact with skin, pauses, and resumes timer:
+    Turn on the device, then check the "apply to skin" checkbox.
+
+    Three frequency options of 0.5Hz, 77Hz, and 100Hz:
+    Turn on the device and press the frequency button, observe frequency options on screen.
+
+    Three waveform options of Alpha, Betta, and Gamma:
+    Turn on the device and press the waveform button, observe waveform options on screen.
+
+    20, 40 or 60 minutre countdown cycles to auto -off:
+    Turn on the device and press the timer button, observer timer options on screen.
+
+    Large timer display. Waveform cycle starts when electrodes touch skin:
+    Turn on the device and choose a timer option. Check apply to skin checkbox and observe.
+
+    0 - 500 microampere current control (1-10), +50 when incrementing and -100 when decrementing:
+    Turn on device and observe current meter on screen. Press up or down buttons to change current.
+
+    30 minute auto -off when not in use:
+    Power on device and wait for shutdown.
+
+    Battery charge indicator. Device issues a warning at 5% charge and shuts down at 2% after another warning:
+    Charge battery percentage on the battery percentage spinbox, or use the device until battery is low.
+
+    User can choose to record a therapy and add to history of treatment:
+    Starts a session and press the record button.
+
+    Automatically and permanently disables itself should a single fault develop within the device causing the current to exceed 700uA:
+    Turn on the device and press the fault checkbox.
