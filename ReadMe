@@ -14,7 +14,7 @@ Members:
         - Program logic
         - Diagrams
     Jason Nguyen
-        - Worked on Record, Device, MainWindow. Implemented timer, adding records, low battery, freeing Device record memory. 
+        - Worked on Record, Device, MainWindow. Implemented timer, adding records, low battery, freeing record memory. 
         - Program logic
         - Traceability Matrix, UML diagram, some use cases.
 ---------------------------------------------------------------------------------------------------
