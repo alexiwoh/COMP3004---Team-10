@@ -14,7 +14,9 @@ Members:
         - Program logic
         - Diagrams
     Jason Nguyen
-        - Worked on Record.h and Record.cpp. Added addRecord() function to Device.
+        - Worked on Record, Device, MainWindow. Implemented timer, adding records, low battery, freeing Device record memory. 
+        - Program logic
+        - Traceability Matrix, UML diagram, some use cases.
 ---------------------------------------------------------------------------------------------------
 The program is a simulation of the The Alpha-Stim CES device.
 Implementation and testing are in C++ using the Qt framework in QtCreator.
