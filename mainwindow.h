@@ -6,12 +6,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "View.h"
 #include <QTimer>
 #include <QTime>
 
 class Device;
-class View;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -47,7 +45,6 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    View *view;
     Device *model;
 };
 #endif // MAINWINDOW_H
