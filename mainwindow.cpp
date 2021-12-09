@@ -106,6 +106,7 @@ void MainWindow::updateScreen(bool isOn)
     ui->applyToSkin->setEnabled(isOn);
     ui->batterySpinBox->setEnabled(isOn);
     ui->faultButton->setEnabled(isOn);
+    ui->faultButton->setChecked(false);
 
     ui->applyToSkin->setChecked(false);
 
