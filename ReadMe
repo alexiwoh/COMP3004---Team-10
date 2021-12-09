@@ -10,9 +10,9 @@ Members:
         - Program logic.
         - Debugging and documentation.
     Kevin Vuong
-        - UI
+        - UI, LEDs, Current buttons, Timer button, Waveform button, Frequency button, Idle timer, Timer resume period
         - Program logic
-        - Diagrams
+        - Sequence Diagrams, use cases
     Sadiq Ali
         - Implemented battery, power, toggle skin and fault functions
         - Program logic
