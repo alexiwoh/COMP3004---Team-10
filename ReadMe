@@ -5,7 +5,8 @@ Github repository: https://github.com/jk-kevin/COMP3004---Team-10
 Members:
     Alexander Iwoh
         - Created View files. 
-        - Worked on Record.h and Record.cc.
+        - Record class.
+        - UML diagram.
         - Program logic.
         - Debugging and documentation.
     Kevin Vuong
