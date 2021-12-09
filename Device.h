@@ -23,6 +23,7 @@ private:
     bool on; // Stores whether the device is on.
     bool recording; // Stores whether the device is currently recording.
     bool isTouchingSkin; // Stores whether the device is touching the patient's skin.
+    bool gracePeriod; //Stores whether the device is currently in the grace period after it has lost skin connection.
     double batteryPercentage;
     double current; //in milliamps
     double frequency; //0.5, 77, 100 hz
@@ -48,6 +49,7 @@ public:
     void setTime(int);
 
     //Getters
+    bool getOn();
     double getBattery();
     double getFrequency();
     double getCurrent();
