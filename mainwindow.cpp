@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include "Device.h"
 #include "Record.h"
 #include <QMessageBox>
 
@@ -11,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
     model = new Device(this);
-    view = new View(this, model);
 
     ui->batterySpinBox->setRange(0,100);
     ui->recordsCover->setVisible(false);
@@ -36,7 +36,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete model;
-    delete view;
 }
 
 void MainWindow::updateRecordText()
