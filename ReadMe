@@ -20,7 +20,7 @@ Members:
     Jason Nguyen
         - Worked on Record, Device, MainWindow. Implemented timer, adding records, low battery, freeing record memory. 
         - Program logic
-        - Traceability Matrix, UML diagram, some use cases.
+        - Traceability Matrix, UML diagram, use cases, use case diagram.
 ---------------------------------------------------------------------------------------------------
 The program is a simulation of the The Alpha-Stim CES device.
 Implementation and testing are in C++ using the Qt framework in QtCreator.
