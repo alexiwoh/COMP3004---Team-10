@@ -4,8 +4,8 @@ Github repository: https://github.com/jk-kevin/COMP3004---Team-10
 ---------------------------------------------------------------------------------------------------
 Members:
     Alexander Iwoh
-        - Created View files. 
-        - Record class.
+        - Record button, Record UI display, Apply to skin. 
+        - View and Record class implementation.
         - UML diagram.
         - Program logic.
         - Debugging and documentation.
