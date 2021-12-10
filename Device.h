@@ -79,7 +79,6 @@ public slots:
     void changeCurrentUp(); // 59 incrementing.
     void changeCurrentDown(); // 100 decrementing.
     void resetTimeIdle(); // Resets idle timer variable.
-    void updateRecords(); // Add a state to the current Record.
     void updateTimes(); // Increments time keeping variables.
 
 private slots:

@@ -65,7 +65,6 @@ void MainWindow::updateTimer(){
     ui->timerLCDNumber->display(timeDisplay);
 
     if(model->getCountDown <= 0){
-      if(model->getRecording())    model->updateRecords();
       ui->recordsTextEdit->setPlainText(model->getRecordsAsText());
     }
 }
@@ -145,7 +144,6 @@ void MainWindow::updateApplyToSkin(bool apply)
 void MainWindow::on_applyToSkin_stateChanged()
 {
     model->toggleTouchingSkin();
-
 }
 
 void MainWindow::on_batterySpinBox_valueChanged(int battery)

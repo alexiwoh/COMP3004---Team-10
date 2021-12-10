@@ -129,9 +129,6 @@ void Device::updateTimes()  {
 void Device::toggleTouchingSkin(){
     resetTimeIdle();
 
-    if(!isTouchingSkin && on && recording) {
-        addRecord(new Record(getTimeElapsed(),waveform,frequency,time,current));
-    }
     isTouchingSkin = !isTouchingSkin;
     if(isTouchingSkin == true){ //touching skin
         qInfo("touching skin");
@@ -154,7 +151,9 @@ void Device::checkSession(){
         display->updateApplyToSkin(false);
         gracePeriod = false;
         display->updateCircuitLED(false);
-        if(recording)   updateRecords();
+        if(!isTouchingSkin && on && recording) {
+            addRecord(new Record(getTimeElapsed(),waveform,frequency,time,current));
+        }
         display->updateRecordText();
     }
 }
