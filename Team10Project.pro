@@ -18,7 +18,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     Device.cpp \
     Record.cpp \
-    View.cpp \
     main.cpp \
     mainwindow.cpp
 

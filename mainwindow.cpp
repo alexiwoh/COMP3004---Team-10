@@ -140,7 +140,7 @@ void MainWindow::updateApplyToSkin(bool apply)
 void MainWindow::on_applyToSkin_stateChanged()
 {
     model->toggleTouchingSkin();
-    if (ui->applyToSkin->isChecked() == true) {
+    if (ui->applyToSkin->isChecked() == true) {  
         if(model->getRecording())    model->updateRecords();
         ui->recordsTextEdit->setPlainText(model->getRecordsAsText());
     }

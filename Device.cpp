@@ -140,8 +140,8 @@ void Device::toggleTouchingSkin(){
             countDown = time;
         }
     }
-    else{
-        qInfo("NOT touching skin"); //not touching skin
+    else{ //not touching skin (for pausing and finished treatment)
+        qInfo("NOT touching skin");
         gracePeriod = true;
         display->updateCircuitLED(isTouchingSkin);
     }
@@ -150,13 +150,12 @@ void Device::toggleTouchingSkin(){
 
 
 void Device::checkSession(){
-    if (countDown <= 0) {
-        isTouchingSkin = false;
+    if (countDown <= 0) { //end of treatment
         display->updateApplyToSkin(false);
+        gracePeriod = false;
         display->updateCircuitLED(false);
         if(recording)   updateRecords();
         display->updateRecordText();
-
     }
 }
 
