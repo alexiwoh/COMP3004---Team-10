@@ -63,6 +63,11 @@ void MainWindow::updateTimer(){
     timeLED = timeLED.addSecs(int(model->getCountDown()));
     QString timeDisplay = timeLED.toString("s");
     ui->timerLCDNumber->display(timeDisplay);
+
+    if(model->getCountDown <= 0){
+      if(model->getRecording())    model->updateRecords();
+      ui->recordsTextEdit->setPlainText(model->getRecordsAsText());
+    }
 }
 
 void MainWindow::updateCurrent()
@@ -140,10 +145,7 @@ void MainWindow::updateApplyToSkin(bool apply)
 void MainWindow::on_applyToSkin_stateChanged()
 {
     model->toggleTouchingSkin();
-    if (ui->applyToSkin->isChecked() == true) {  
-        if(model->getRecording())    model->updateRecords();
-        ui->recordsTextEdit->setPlainText(model->getRecordsAsText());
-    }
+
 }
 
 void MainWindow::on_batterySpinBox_valueChanged(int battery)
