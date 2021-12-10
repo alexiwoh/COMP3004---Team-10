@@ -16,7 +16,8 @@ Members:
     Sadiq Ali
         - Implemented battery, power, toggle skin and fault functions
         - Program logic
-        - Diagrams
+        - UI debugging
+        - Sequence diagrams, use cases
     Jason Nguyen
         - Worked on Record, Device, MainWindow. Implemented timer, adding records, low battery, freeing record memory. 
         - Program logic
