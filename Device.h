@@ -80,6 +80,7 @@ public slots:
     void changeCurrentDown(); // 100 decrementing.
     void resetTimeIdle(); // Resets idle timer variable.
     void updateTimes(); // Increments time keeping variables.
+    void updateRecords();
 
 private slots:
     void timerUpdate();

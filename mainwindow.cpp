@@ -64,7 +64,7 @@ void MainWindow::updateTimer(){
     QString timeDisplay = timeLED.toString("s");
     ui->timerLCDNumber->display(timeDisplay);
 
-    if(model->getCountDown <= 0){
+    if(model->getCountDown() <= 0){
       ui->recordsTextEdit->setPlainText(model->getRecordsAsText());
     }
 }

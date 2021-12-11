@@ -26,7 +26,7 @@ Device::~Device(){
   for(int i = 0; i<numRecords; i++){
     delete records[i];
   }
-  qInfo("deconstructer");
+  qInfo("deconstructor");
 }
 
 //Setters
@@ -107,6 +107,7 @@ QString Device::getRecordsAsText()  {
 
 void Device::updateRecords()    {
     records[numRecords-1]->setPower(current);
+    display->updateRecordText();
 }
 
 void Device::updateTimes()  {
@@ -119,6 +120,7 @@ void Device::updateTimes()  {
         else if (timeIdle >= 5 && gracePeriod == true) { //stop treatment
             countDown = time;
             display->updateTimer();
+
         }
         timeIdle++;
     }
@@ -151,7 +153,7 @@ void Device::checkSession(){
         display->updateApplyToSkin(false);
         gracePeriod = false;
         display->updateCircuitLED(false);
-        if(!isTouchingSkin && on && recording) {
+        if(on && recording) {
             addRecord(new Record(getTimeElapsed(),waveform,frequency,time,current));
         }
         display->updateRecordText();
@@ -234,10 +236,10 @@ void Device::toggle(){
 
 void Device::toggleRecording(){
     resetTimeIdle();
-    if(isTouchingSkin)  {
+    /*if(isTouchingSkin)  {
         qInfo("Cannot start/stop recording within a session.");
         return;
-    }
+    }*/
     recording = !recording;
     display->updateRecordingLED(recording);
 }
@@ -245,6 +247,7 @@ void Device::toggleRecording(){
 
 void Device::changeFrequency(){
     resetTimeIdle();
+    if(gracePeriod || isTouchingSkin) return;
 
     if (frequency == 0.5) {
         setFrequency(77);
@@ -263,6 +266,7 @@ void Device::changeFrequency(){
 
 void Device::changeWaveform(){
     resetTimeIdle();
+    if(gracePeriod || isTouchingSkin) return;
 
     if (waveform == "Alpha") {
         setWaveform("Betta");
@@ -281,6 +285,7 @@ void Device::changeWaveform(){
 
 void Device::changeTime(){
     resetTimeIdle();
+    if(gracePeriod || isTouchingSkin) return;
 
     if (time == 20) {
         setTime(40);

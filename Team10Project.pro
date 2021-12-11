@@ -24,7 +24,6 @@ SOURCES += \
 HEADERS += \
     Device.h \
     Record.h \
-    View.h \
     mainwindow.h
 
 FORMS += \
